@@ -1,0 +1,3 @@
+type Query {
+  seeLikeFromPost(postId: String, supportId: String): [Like!]
+}

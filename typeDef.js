@@ -1,0 +1,33 @@
+export default {
+  POST: "POST",
+  SUPPORT: "SUPPORT",
+
+  /// star activeType
+  PERSON: "PERSON",
+  GROUP: "GROUP",
+  MEMBER: "MEMBER",
+
+  /// Support status
+  SUPPORT_PROCEEDING: 0, /// 진행중
+  SUPPORT_COMPLETE: 1, /// 모금완료
+  SUPPORT_PREPARE: 2, /// 준비중
+  SUPPORT_FINAL_COMPLETE: 3, /// 최종완료
+
+  /// userActiveType
+  USER_ACTIVETYPE_GENERAL: 0, /// 일반사용자
+  USER_ACTIVETYPE_POSTWRITER: 1, /// PostWriter
+  USER_ACTIVETYPE_CREATOR: 2, /// Creator
+  USER_ACTIVETYPE_STAR: 3, /// 스타/소속사
+  USER_ACTIVETYPE_ADVERTISER: 4, /// 스타/소속사
+  USER_ACTIVETYPE_ADMIN: 5, /// 스타/소속사
+
+  /// 배송상태
+  DELIVERY_STATUS_DEFUALT: 0, /// default
+  DELIVERY_STATUS_WAIT_PAYMENT: 1, /// 결제대기
+  DELIVERY_STATUS_COMPLETE_PAYMENT: 2, /// 결제완료
+  DELIVERY_STATUS_PREPARE_SHIPPING: 3, /// 배송준비중
+  DELIVERY_STATUS_SHIPPING: 4, /// 배송중
+  DELIVERY_STATUS_COMPLETE_SHIPPING: 5, /// 배송완료
+  DELIVERY_STATUS_CONFIRM: 6, /// 구매확정
+  DELIVERY_STATUS_CANCEL: 7 /// 결제취소
+};

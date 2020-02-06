@@ -1,0 +1,410 @@
+type User {
+  id: ID!
+  loginSecret: String
+  phoneNumber: String
+  email: String!
+  password: String!
+  username: String!
+  avatar: String
+  bio: String
+  background: String
+  address: String
+  favorites: [Star!]!
+  following: [User!]!
+  followers: [User!]!
+  goodses: [Goods!]!
+  posts: [Post!]!
+  news: [News!]!
+  certifications: [Certification!]!
+  rooms: [Room!]!
+  supports: [Support!]!
+  supportHistories: [SupportHistory!]!
+  likes: [Like!]!
+  bookmarks: [Bookmark!]!
+  comments: [Comment!]!
+  reviews: [Review!]!
+  registStar: [Star!]!
+  orders: [Order!]!
+  payment: Pay
+  alarms: [Alarm!]!
+  alarmsFromUser: [Alarm!]!
+  reportedGoodses: [Goods!]!
+  reportedPosts: [Post!]!
+  reportedNews: [News!]!
+  receiveReports: [Report!]!
+  sendReports: [Report!]!
+  creator: Creator
+  advertisement: Advertisement
+  importantPop: Boolean
+  signupRoute: Int
+  userActiveType: Int
+  adminAcc: Boolean
+  valid: Boolean
+  createdAt: String
+  updatedAt: String
+
+  uncheckedAlarmsCount: Int!
+  goodsesCount: Int!
+  reviewsCount: Int!
+  postsCount: Int!
+  newsCount: Int!
+  certificationsCount: Int!
+  supportHistoriesCount: Int!
+  buyCount: Int!
+  ordersCount: Int!
+  followingCount: Int!
+  followersCount: Int!
+  isFollowing: Boolean!
+  isSelf: Boolean!
+}
+
+type Goods {
+  id: ID!
+  user: User!
+  creationForm: Int!
+  files: [String!]!
+  title: String!
+  description: String
+  minPrice: Int
+  maxPrice: Int
+  deliveryPrice: Int
+  orderStartDate: String
+  orderEndDate: String
+  comments: [Comment!]!
+  reviews: [Review!]!
+  bookmarks: [Bookmark!]!
+  support: Support
+  supportStar: Star
+  supportHistories: [SupportHistory!]!
+  supportPercent: Int
+  supportMessage: String
+  registedProducts: [Product!]!
+  kinds: [Kind!]!
+  keywords: [Keyword!]!
+  orderStatus: [Order!]!
+  viewCount: Int
+  licence: Boolean
+  star: [Star!]!
+  reportedUser: [User!]!
+  reports: [Report!]!
+  alarms: [Alarm!]!
+  status: Boolean
+  valid: Boolean
+  createdAt: String
+  updatedAt: String
+
+  isBookmarked: Boolean!
+  bookmarkCount: Int!
+  commentCount: Int!
+}
+
+type Product {
+  id: ID!
+  registedGoods: Goods
+  title: String
+  description: String
+  files: [String!]!
+  price: Int
+  quantity: Int
+  valid: Boolean
+  createdAt: String
+  updatedAt: String
+}
+
+type Review {
+  id: ID!
+  user: User
+  goods: Goods
+  description: String
+  files: [String!]!
+  reports: [Report!]!
+  valid: Boolean
+  createdAt: String
+  updatedAt: String
+}
+
+type Post {
+  id: ID!
+  user: User!
+  comments: [Comment!]!
+  likes: [Like!]!
+  files: [String!]!
+  title: String!
+  description: String
+  star: [Star!]!
+  keywords: [Keyword!]!
+  viewCount: Int
+  reportedUser: [User!]!
+  reports: [Report!]!
+  valid: Boolean
+  createdAt: String
+  updatedAt: String
+
+  isLiked: Boolean!
+  likeCount: Int!
+  commentCount: Int!
+}
+
+type News {
+  id: ID!
+  user: User!
+  comments: [Comment!]!
+  files: [String!]!
+  title: String!
+  description: String
+  reportedUser: [User!]!
+  reports: [Report!]!
+  valid: Boolean
+  createdAt: String
+  updatedAt: String
+
+  commentCount: Int!
+}
+
+type Order {
+  id: ID!
+  user: User!
+  name: String!
+  phoneNum: String
+  goods: Goods
+  goodsName: String!
+  goodsDesc: String
+  recipient: String!
+  recipientPhone: String!
+  location: String!
+  requirement: String
+  payment: String!
+  price: Int!
+  commision: Int
+  deliveryPrice: Int
+  supportPrice: Int
+  support: Support
+  deliveryStatus: Int!
+  deliveryDesc: String
+  oneDate: String
+  twoDate: String
+  threeDate: String
+  fourDate: String
+  fiveDate: String
+  sixDate: String
+  sevenDate: String
+  createdAt: String
+  updatedAt: String
+}
+
+type Pay {
+  id: ID!
+  user: User!
+  account: String
+}
+
+type Room {
+  id: ID!
+  participants: [User!]!
+  messages: [Message!]!
+  title: String
+  file: String
+  alarms: [Alarm!]!
+  reports: [Report!]!
+  valid: Boolean
+  createdAt: String
+  updatedAt: String
+
+  participantsCount: Int
+}
+
+type Report {
+  id: ID!
+  reporter: User!
+  goods: Goods
+  post: Post
+  news: News
+  comment: Comment
+  userProfile: User
+  room: Room
+  support: Support
+  review: Review
+  reportType: Int
+  createdAt: String
+  updatedAt: String
+}
+
+type Comment {
+  id: ID!
+  text: String!
+  user: User
+  goods: Goods
+  post: Post
+  news: News
+  support: Support
+  reports: [Report!]!
+  createdAt: String
+  updatedAt: String
+}
+
+type Message {
+  id: ID!
+  text: String!
+  from: User!
+  room: Room!
+  createdAt: String
+  updatedAt: String
+}
+
+type Kind {
+  id: ID!
+  num: Int
+  text: String
+  goodses: [Goods!]!
+  registed: Boolean
+  createdAt: String
+  updatedAt: String
+}
+
+type Keyword {
+  id: ID!
+  num: Int
+  text: String
+  goodses: [Goods!]!
+  posts: [Post!]!
+  createdAt: String
+  updatedAt: String
+}
+
+type Like {
+  id: ID!
+  user: User!
+  post: Post
+  support: Support
+  createdAt: String
+  updatedAt: String
+}
+
+type Bookmark {
+  id: ID!
+  user: User!
+  goods: Goods
+  createdAt: String
+  updatedAt: String
+}
+
+type Alarm {
+  id: ID!
+  toUser: User!
+  alarmType: Int
+  targetUser: User
+  targetGoods: Goods
+  targetRoom: Room
+  text: String
+  noticeURL: String
+  viewStatus: Boolean
+  createdAt: String
+  updatedAt: String
+}
+
+type Star {
+  id: ID!
+  name: String
+  engName: String
+  avatar: String
+  alternativeName: [String!]!
+  childStar: [Star!]!
+  parentsStar: [Star!]!
+  jopType: String
+  activeType: String
+  entertainment: String
+  registed: Boolean
+  registedUser: [User!]!
+  user: [User!]!
+  goodses: [Goods!]!
+  supportedGoodses: [Goods!]!
+  posts: [Post!]!
+  supports: [Support!]!
+  supportHistories: [SupportHistory!]!
+  license: Boolean
+  createdAt: String
+  updatedAt: String
+}
+
+type Creator {
+  id: ID!
+  user: User!
+  rank: Int
+  createdAt: String
+  updatedAt: String
+}
+
+type Certification {
+  id: ID!
+  user: User!
+  title: String!
+  description: String
+  createdAt: String
+  updatedAt: String
+}
+
+type Support {
+  id: ID!
+  user: User!
+  files: [String!]!
+  title: String!
+  description: String
+  organization: String
+  collection: Int
+  target: Int
+  stars: [Star!]!
+  goodses: [Goods!]!
+  supportHistories: [SupportHistory!]!
+  comments: [Comment!]!
+  likes: [Like!]!
+  orders: [Order!]!
+  reports: [Report!]!
+  status: Int
+  valid: Boolean
+  createdAt: String
+  updatedAt: String
+
+  isLiked: Boolean!
+  likeCount: Int!
+  commentCount: Int!
+}
+
+type SupportHistory {
+  id: ID!
+  user: User!
+  donation: Int
+  support: Support
+  goods: Goods
+  star: Star
+  valid: Boolean
+  createdAt: String
+  updatedAt: String
+}
+
+type Advertisement {
+  id: ID!
+  user: User!
+  files: [String!]!
+  title: String!
+  link: String
+  viewCount: Int
+  minViewCount: Int
+  maxViewCount: Int
+  term: Int
+  startTime: String
+  endTime: String
+  status: Int
+  createdAt: String
+  updatedAt: String
+}
+
+enum ACTIONS {
+  EDIT
+  DELETE
+}
+
+enum ACTIVETYPE {
+  PERSON
+  GROUP
+  MEMBER
+}

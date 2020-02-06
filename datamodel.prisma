@@ -1,0 +1,389 @@
+type User {
+	id : ID! @id
+	loginSecret : String
+	phoneNumber : String
+	email : String! @unique
+	password : String!
+	username : String! @unique
+	avatar : String
+	bio : String
+	background : String
+	address : String
+	favorites : [Star!]! @relation(name: "FavoritesStar")
+	following : [User!]! @relation(name: "FollowRelation")
+	followers : [User!]! @relation(name: "FollowRelation")
+	goodses : [Goods!]! @relation(name: "GoodsesByUser" onDelete: CASCADE)
+	posts : [Post!]! @relation(name: "PostsByUser" onDelete: CASCADE)
+	news : [News!]! @relation(name: "NewsByUser" onDelete: CASCADE)
+	certifications : [Certification!]! @relation(name: "CertificationsByUser" onDelete: CASCADE)
+	rooms : [Room!]! @relation(name: "RoomsParticipants")
+	supports : [Support!]! @relation(name: "SupportByUser" onDelete: CASCADE)
+	supportHistories : [SupportHistory!]! @relation(name: "SupportHistoriesByUser" onDelete: CASCADE)
+	likes : [Like!]! @relation(name: "LikeByUser")
+	bookmarks : [Bookmark!]! @relation(name: "BookmarkByUser")
+	comments : [Comment!]! @relation(name: "CommentByUser")
+	reviews : [Review!]! @relation(name: "ReviewsByUser")
+	registStar: [Star!]! @relation(name: "RegistedStarByUser")
+	orders : [Order!]! @relation(name: "OrdersByUser")
+	payment : Pay @relation(link: INLINE, name: "PayByUser" onDelete: CASCADE)
+	alarms : [Alarm!]! @relation(name: "SendAlarm")
+	alarmsFromUser : [Alarm!]! @relation(name: "AlarmsByUser" onDelete: CASCADE)
+	reportedGoodses : [Goods!]! @relation(name: "ReportedUserByGoods")
+	reportedPosts : [Post!]! @relation(name: "ReportedUserByPost")
+	reportedNews : [News!]! @relation(name: "ReportedUserByNews")
+	receiveReports : [Report!]! @relation(name: "ReportByUserProfile" onDelete: CASCADE)
+	sendReports : [Report!]! @relation(name: "SendReportsByUser" onDelete: CASCADE)
+	creator : Creator @relation(link: INLINE, name: "CreatorByUser")
+	advertisement : Advertisement @relation(link: INLINE, name: "AdByUser")
+	importantPop : Boolean @default(value: true)
+	signupRoute : Int @default(value: 0)
+	userActiveType : Int @default(value: 0)
+	adminAcc : Boolean @default(value: false)
+	valid : Boolean @default(value: true)
+	createdAt : DateTime! @createdAt
+	updatedAt : DateTime! @updatedAt
+}
+
+
+type Goods {
+	id : ID! @id
+	user : User! @relation(name: "GoodsesByUser")
+	creationForm : Int!
+	files : [String!]! @scalarList(strategy: RELATION)	
+	title : String!
+	description : String	
+	minPrice : Int
+	maxPrice : Int
+	deliveryPrice : Int
+	orderStartDate : DateTime
+	orderEndDate : DateTime
+	comments : [Comment!]! @relation(name: "CommentsByGoods" onDelete: CASCADE)
+	reviews : [Review!]! @relation(name: "ReviewsByGoods")
+	bookmarks : [Bookmark!]! @relation(name: "BookmarksByGoods" onDelete: CASCADE)
+	support : Support @relation(name: "GoodsesBySupport")
+	supportStar : Star @relation(name: "SupportStarByGoods")
+	supportHistories : [SupportHistory!]! @relation(name: "SupportHistoriesByGoods")
+	supportPercent : Int
+	supportMessage : String
+	registedProducts : [Product!]! @relation(name: "RegistedProductsByGoods" onDelete: CASCADE)
+	kinds: [Kind!]! @relation(name: "KindByGoods")
+	keywords: [Keyword!]! @relation(name: "KeywordByGoods")
+	orderStatus : [Order!]! @relation(name: "OrderByGoods")
+	viewCount : Int @default(value: 0)
+	licence : Boolean @default(value: false)
+	star : [Star!]! @relation(name: "StarByGoods")
+	reportedUser : [User!]! @relation(name: "ReportedUserByGoods")
+	reports : [Report!]! @relation(name: "ReportByGoods" onDelete: CASCADE)
+	alarms : [Alarm!]! @relation(name: "AlarmsByGoods" onDelete: CASCADE)	
+	status : Boolean @default(value: true)
+	valid : Boolean @default(value: true)
+	createdAt : DateTime! @createdAt
+	updatedAt : DateTime! @updatedAt
+}
+
+
+type Product {
+	id : ID! @id
+	registedGoods : Goods @relation(name: "RegistedProductsByGoods")
+	title : String
+	description : String
+	files : [String!]! @scalarList(strategy: RELATION)
+	price : Int
+	quantity : Int
+	valid : Boolean @default(value: true)
+	createdAt : DateTime! @createdAt
+	updatedAt : DateTime! @updatedAt
+}
+
+
+type Review {
+	id : ID! @id
+	user : User @relation(name: "ReviewsByUser")
+	goods : Goods @relation(name: "ReviewsByGoods")
+	description : String
+	files : [String!]! @scalarList(strategy: RELATION)
+	reports : [Report!]! @relation(name: "ReportByReview" onDelete: CASCADE)
+	valid : Boolean @default(value: true)
+	createdAt : DateTime! @createdAt
+	updatedAt : DateTime! @updatedAt
+}
+
+
+type Post {
+	id : ID! @id
+	user : User! @relation(name: "PostsByUser")
+	comments : [Comment!]! @relation(name: "CommentsByPost" onDelete: CASCADE)
+	likes : [Like!]! @relation(name: "LikeByPost" onDelete: CASCADE)
+	files : [String!]! @scalarList(strategy: RELATION)
+	title : String!
+	description : String
+	star : [Star!]! @relation(name: "StarByPost")
+	keywords: [Keyword!]! @relation(name: "KeywordByPost")
+	viewCount : Int @default(value: 0)
+	reportedUser : [User!]! @relation(name: "ReportedUserByPost")
+	reports : [Report!]! @relation(name: "ReportByPost" onDelete: CASCADE)
+	valid : Boolean @default(value: true)
+	createdAt : DateTime! @createdAt
+	updatedAt : DateTime! @updatedAt
+}
+
+type News {
+	id : ID! @id
+	user : User! @relation(name: "NewsByUser")
+	comments : [Comment!]! @relation(name: "CommentsByNews" onDelete: CASCADE)
+	files : [String!]! @scalarList(strategy: RELATION)	
+	title : String!
+	description : String	
+	reportedUser : [User!]! @relation(name: "ReportedUserByNews")
+	reports : [Report!]! @relation(name: "ReportByNews" onDelete: CASCADE)
+	valid : Boolean @default(value: true)
+	createdAt : DateTime! @createdAt
+	updatedAt : DateTime! @updatedAt
+}
+
+type Order {
+	id : ID! @id
+	user : User! @relation(name: "OrdersByUser")
+	name : String!
+	phoneNum : String
+	goods : Goods @relation(name: "OrderByGoods")
+	goodsName : String!
+	goodsDesc : String
+	recipient : String!
+	recipientPhone : String!
+	location : String!
+	requirement : String
+	payment : String!
+	price : Int!
+	commision : Int
+	deliveryPrice : Int
+	supportPrice : Int
+	support : Support @relation(name: "OrdersBySupport")
+	deliveryStatus : Int! @default(value: 0)
+	deliveryDesc : String
+	oneDate : DateTime
+	twoDate : DateTime
+	threeDate : DateTime
+	fourDate : DateTime
+	fiveDate : DateTime
+	sixDate : DateTime
+	sevenDate : DateTime
+	createdAt : DateTime! @createdAt
+	updatedAt : DateTime! @updatedAt
+}
+
+
+type Pay {
+	id : ID! @id
+	user : User! @relation(name: "PayByUser")
+	account : String  
+}
+
+
+type Room {
+	id : ID! @id
+	participants : [User!]! @relation(name: "RoomsParticipants")
+	messages : [Message!]! @relation(name: "MessagesByRoom" onDelete: CASCADE)
+	title : String
+	file : String
+	alarms : [Alarm!]! @relation(name: "AlarmsByRoom")
+	reports : [Report!]! @relation(name: "ReportByRoom" onDelete: CASCADE)
+	valid : Boolean @default(value: true)
+	createdAt : DateTime! @createdAt
+	updatedAt : DateTime! @updatedAt  
+}
+
+
+type Report {
+	id : ID! @id
+	reporter : User! @relation(name: "SendReportsByUser")
+	goods : Goods @relation(name: "ReportByGoods")
+	post : Post @relation(name: "ReportByPost")
+	news : News @relation(name: "ReportByNews")
+	comment : Comment @relation(name: "ReportByComment")
+	userProfile : User @relation(name: "ReportByUserProfile")
+	room : Room @relation(name: "ReportByRoom")
+	support : Support @relation(name: "ReportBySupport")
+	review : Review @relation(name: "ReportByReview")
+	reportType : Int
+	createdAt : DateTime! @createdAt
+	updatedAt : DateTime! @updatedAt  
+}
+
+
+type Comment {
+	id : ID! @id
+	text : String!
+	user : User @relation(name: "CommentByUser")
+	goods : Goods @relation(name: "CommentsByGoods" )
+	post : Post @relation(name: "CommentsByPost" )
+	news : News @relation(name: "CommentsByNews" )
+	support : Support @relation(name: "CommentsBySupport" )
+	reports : [Report!]! @relation(name: "ReportByComment" onDelete: CASCADE)
+	createdAt : DateTime! @createdAt
+	updatedAt : DateTime! @updatedAt  
+}
+
+
+type Message {
+	id : ID! @id
+	text : String!
+	from : User!
+	room : Room! @relation(name: "MessagesByRoom")
+	createdAt : DateTime! @createdAt
+	updatedAt : DateTime! @updatedAt 
+}
+
+
+type Kind {
+	id : ID! @id
+	num : Int
+	text : String
+	goodses : [Goods!]! @relation(name: "KindByGoods")
+	registed : Boolean @default(value: false)
+	createdAt : DateTime! @createdAt
+	updatedAt : DateTime! @updatedAt 
+}
+
+
+type Keyword {
+	id : ID! @id
+	num : Int
+	text : String
+	goodses : [Goods!]! @relation(name: "KeywordByGoods")
+	posts: [Post!]! @relation(name: "KeywordByPost")
+	createdAt : DateTime! @createdAt
+	updatedAt : DateTime! @updatedAt  
+}
+
+
+type Like {
+	id : ID! @id
+	user : User! @relation(name: "LikeByUser")
+	post : Post @relation(name: "LikeByPost")
+	support : Support @relation(name: "LikeBySupport")
+	createdAt : DateTime! @createdAt
+	updatedAt : DateTime! @updatedAt
+}
+
+
+type Bookmark {
+	id : ID! @id
+	user : User! @relation(name: "BookmarkByUser")
+	goods : Goods @relation(name: "BookmarksByGoods")
+	createdAt : DateTime! @createdAt
+	updatedAt : DateTime! @updatedAt
+}
+
+
+type Alarm {
+	id : ID! @id
+	toUser : User! @relation(name: "SendAlarm")
+	alarmType : Int
+	targetUser : User @relation(name: "AlarmsByUser")
+	targetGoods : Goods @relation(name: "AlarmsByGoods")
+	targetRoom : Room @relation(name: "AlarmsByRoom")
+	text : String
+	noticeURL : String
+	viewStatus : Boolean @default(value: false)
+	createdAt : DateTime! @createdAt
+	updatedAt : DateTime! @updatedAt
+}
+
+
+type Star {
+	id : ID! @id
+	name : String
+	engName : String
+	avatar : String
+	alternativeName : [String!]! @scalarList(strategy: RELATION)
+	childStar : [Star!]! @relation(name: "StarByStar")
+	parentsStar : [Star!]! @relation(name: "StarByStar")
+	jopType : String
+	activeType : String
+	entertainment : String
+	registed : Boolean @default(value: false)
+	registedUser: [User!]! @relation(name: "RegistedStarByUser")
+	user : [User!]! @relation(name: "FavoritesStar")
+	goodses : [Goods!]! @relation(name: "StarByGoods")
+	supportedGoodses : [Goods!]! @relation(name: "SupportStarByGoods")
+	posts : [Post!]! @relation(name: "StarByPost")
+	supports : [Support!]! @relation(name: "StarBySupport")
+	supportHistories : [SupportHistory!]! @relation(name: "SupportHistoriesByStar")
+	license : Boolean @default(value: false)
+	createdAt : DateTime! @createdAt
+	updatedAt : DateTime! @updatedAt
+}
+
+
+type Creator {
+	id : ID! @id
+	user : User! @relation(name: "CreatorByUser")
+	rank : Int
+	createdAt : DateTime! @createdAt
+	updatedAt : DateTime! @updatedAt
+}
+
+
+type Certification {
+	id : ID! @id
+	user : User! @relation(name: "CertificationsByUser")
+	title : String!
+	description : String
+	createdAt : DateTime! @createdAt
+	updatedAt : DateTime! @updatedAt
+}
+
+
+type Support {
+	id : ID! @id
+	user : User! @relation(name: "SupportByUser")
+	files : [String!]! @scalarList(strategy: RELATION)
+	title : String!
+	description : String
+	organization : String
+	collection : Int @default(value: 0)
+	target : Int
+	stars : [Star!]! @relation(name: "StarsBySupport")
+	goodses : [Goods!]! @relation(name: "GoodsesBySupport")
+	supportHistories : [SupportHistory!]! @relation(name: "SupportHistoriesBySupport")
+	comments : [Comment!]! @relation(name: "CommentsBySupport" onDelete: CASCADE)
+	likes : [Like!]! @relation(name: "LikeBySupport" onDelete: CASCADE)
+	orders : [Order!]! @relation(name: "OrdersBySupport")
+	reports : [Report!]! @relation(name: "ReportBySupport" onDelete: CASCADE)
+	status : Int @default(value: 0)
+	valid : Boolean @default(value: true)
+	createdAt : DateTime! @createdAt
+	updatedAt : DateTime! @updatedAt
+}
+
+
+type SupportHistory {
+	id : ID! @id
+	user : User! @relation(name: "SupportHistoriesByUser")
+	donation : Int @default(value: 0)
+	support : Support @relation(name: "SupportHistoriesBySupport")
+	goods : Goods @relation(name: "SupportHistoriesByGoods")	
+	star : Star @relation(name: "SupportHistoriesByStar")
+	valid : Boolean @default(value: true)
+	createdAt : DateTime! @createdAt
+	updatedAt : DateTime! @updatedAt
+}
+
+
+type Advertisement {
+	id : ID! @id
+	user : User! @relation(name: "AdByUser")
+	files : [String!]! @scalarList(strategy: RELATION)
+	title : String!
+	link : String
+	viewCount : Int @default(value: 0)
+	minViewCount : Int @default(value: 0)
+	maxViewCount : Int @default(value: 0)
+	term : Int @default(value: 0)
+	startTime : DateTime
+	endTime : DateTime
+	status : Int @default(value: 0)
+	createdAt : DateTime! @createdAt
+	updatedAt : DateTime! @updatedAt
+}

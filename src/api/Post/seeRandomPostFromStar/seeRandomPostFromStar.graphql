@@ -1,0 +1,7 @@
+type Query {
+  seeRandomPostFromStar(
+    starId: String!
+    loadNumber: Int
+    id: [String!]
+  ): [Post!]!
+}

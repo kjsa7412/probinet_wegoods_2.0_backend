@@ -1,0 +1,3 @@
+type Query {
+  seeComments(goodsId: String, postId: String, supportId: String): [Comment!]!
+}

@@ -1,0 +1,8 @@
+type Mutation {
+  addComment(
+    text: String!
+    goodsId: String
+    postId: String
+    supportId: String
+  ): Comment!
+}

@@ -1,0 +1,17 @@
+input member {
+  name: String
+  engName: String
+  alternativeName: [String!]
+}
+
+type Mutation {
+  addStar(
+    name: String
+    engName: String
+    alternativeName: [String!]
+    members: [member!]
+    jopType: String
+    activeType: ACTIVETYPE!
+    entertainment: String
+  ): [Star!]
+}

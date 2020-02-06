@@ -1,0 +1,7 @@
+type Query {
+  seeRandomSupport(
+    supportStatus: [Int!]
+    loadNumber: Int
+    id: [String!]
+  ): [Support!]!
+}
